@@ -1,6 +1,6 @@
-import { _decorator, Component, Node, Prefab, assetManager, UITransform, view } from 'cc';
+import { _decorator, Component, Node, Prefab, assetManager, UITransform, view, instantiate, director } from 'cc';
 import { ABEnum } from '../const/const_game';
-import { UIScene, ui_config } from '../const/UIScene';
+import { UIScene, uizorder, ui_config } from '../const/UIScene';
 import { ResManager } from './ResManager';
 const { ccclass, property } = _decorator;
 
@@ -11,11 +11,25 @@ export class UIManager {
         if(!UIManager._instance)UIManager._instance = new UIManager();
         return UIManager._instance;
     }
+    private _layer:{[zorder:number]:Node} = null;
+    private _cur_scene_name:string = null;
 
-    public async openUI(ui_config:ui_config,){
-        let scene = await this._createUI(ui_config);
-        //ok~接下来是层级问题 - 挂机~
-        
+    public async openUI(ui_config:ui_config,zorder:uizorder){
+        if(this._cur_scene_name!=director.getScene().name){//切换场景自动清空节点
+            this._layer = {};
+        } 
+        let load_pre = await this._createUI(ui_config);
+        let ins_scene = instantiate(load_pre);
+        //自动识别层级，对应怼入父节点相应位置
+        let father:Node = null;
+        if(this._layer[zorder]){
+            father = this._layer[zorder];
+        }else{
+            let canvas = director.getScene().getChildByName("Canvas");
+            father = canvas.getChildByName(`${zorder}`);
+        }
+        this.adapter(ins_scene.getComponent(UITransform));
+        ins_scene.setParent(father);
     }
 
     
