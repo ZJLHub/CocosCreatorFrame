@@ -218,33 +218,30 @@ export class myMath {
         return null;
     }
 
-    /**
-    * 返回随机权重后的item
-    * @param weightObj {[itemKey:string]:{weight:100,...}}
-    */
-    public static RandomWeight4(weightObj: any) {
-        let items: string[] = [];
-        let weigths: number[] = [];
-        let weightMax: number = 0;
-        for (let k in weightObj) {
-            items.push(k);
-            let value = weightObj[k].weight;
-            weigths.push(value);
-            weightMax += value;
-        }
-        weightMax = Math.floor(weightMax);
-        let rand: number = Math.floor(Math.random() * weightMax);
-        //查询所属item
-        let searchValueSum: number = 0;
-        for (let i = 0; i < items.length; i++) {
-            searchValueSum += weigths[i];
-            if (rand <= searchValueSum) {
-                let key = items[i];
-                let item = weightObj[key]
-                return item;
-            }
-        }
-        return null;
+    /**获取权重5 终版 */
+    public static randomWeight5(v_key:string,weightObj:any){//weight {}类型
+        //TODO 咕咕咕
+        // let weigths: number[] = [];
+        // let weightMax: number = 0;
+        // for (let k in weightObj) {
+            
+        //     let value = weightObj[k].weight;
+        //     weigths.push(value);
+        //     weightMax += value;
+        // }
+        // weightMax = Math.floor(weightMax);
+        // let rand: number = Math.floor(Math.random() * weightMax);
+        // //查询所属item
+        // let searchValueSum: number = 0;
+        // for (let i = 0; i < items.length; i++) {
+        //     searchValueSum += weigths[i];
+        //     if (rand <= searchValueSum) {
+        //         let key = items[i];
+        //         let item = weightObj[key]
+        //         return item;
+        //     }
+        // }
+        // return null;
     }
     //#endregion ····························权重操作······························
 
